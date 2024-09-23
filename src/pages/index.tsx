@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import { abi } from "../abi";
 import PinataForm from "../components/PinataForm";
+import PinataFile from "../components/PinataFile";
 
 const Home: NextPage = () => {
   const [poolID, setPoolID] = useState<`0x${string}`>(
@@ -45,11 +46,15 @@ const Home: NextPage = () => {
             }}
           />
           <div className={styles.content}>
-            {isLoading
-              ? "Loading..."
-              : isError
-              ? `Error: ${error}`
-              : `metadataCID: ${JSON.stringify(metadataCID, null, 2)}`}
+            {isLoading ? (
+              "Loading..."
+            ) : isError ? (
+              `Error: ${error}`
+            ) : metadataCID ? (
+              <PinataFile cid={metadataCID} />
+            ) : (
+              "no metatadaCID"
+            )}
           </div>
 
           <div>
