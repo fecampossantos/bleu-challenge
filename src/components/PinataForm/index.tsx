@@ -18,11 +18,12 @@ const PinataForm = () => {
       setUploading(true);
       const keyRequest = await fetch("/api/key");
       const keyData = await keyRequest.json();
-      const upload = await pinata.upload.file(file).key(keyData.JWT);
+      const upload = await pinata.upload
+        .file(file)
+        .key(keyData.JWT)
+        .cidVersion(0);
       //   const ipfsUrl = await pinata.gateways.convert(upload.IpfsHash)
       const cid = upload.IpfsHash;
-      console.log(cid);
-      //   console.log(ipfsUrl);
       setUploading(false);
     } catch (e) {
       console.log(e);

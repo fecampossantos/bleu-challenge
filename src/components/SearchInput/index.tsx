@@ -18,7 +18,6 @@ const SearchInput = ({ search }: { search: (value: string) => void }) => {
         return;
       } else {
         setIsError(false);
-        console.log(inputValue);
         search(inputValue);
       }
     }, 400);
