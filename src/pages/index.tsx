@@ -3,11 +3,10 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Menu from "../components/Menu";
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useReadContract } from "wagmi";
 import { abi } from "../abi";
-import PinataForm from "../components/PinataForm";
 import PinataFile from "../components/PinataFile";
 
 const Home: NextPage = () => {
@@ -55,10 +54,6 @@ const Home: NextPage = () => {
             ) : (
               "no metatadaCID"
             )}
-          </div>
-
-          <div>
-            <PinataForm />
           </div>
         </div>
       </div>
