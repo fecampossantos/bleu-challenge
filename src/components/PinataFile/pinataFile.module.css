@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.form > textarea {
+.textarea {
   width: 100%;
   min-height: 5rem;
   resize: none;
