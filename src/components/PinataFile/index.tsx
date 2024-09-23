@@ -13,6 +13,7 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
   const [inputContent, setInputContent] = useState<string>();
   const [isUpdating, setIsUpdating] = useState(false);
   const [allowEdit, setAllowEdit] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
 
   const {
     data: metadataCID,
@@ -38,9 +39,10 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
       }
     }
     if (metadataCID) fetchFile();
-  }, [metadataCID]);
+  }, [metadataCID, hasChanged]);
 
   const updateContent = async () => {
+    if (!hasChanged) return;
     const timestamp = Date.now();
     const blob = new Blob([inputContent!], { type: "text/plain" });
     const file = new File([blob], `file-${timestamp}.txt`, {
@@ -48,7 +50,7 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
     });
 
     try {
-      //   setUploading(true);
+      setIsUpdating(true);
       const keyRequest = await fetch("/api/key");
       const keyData = await keyRequest.json();
       const upload = await pinata.upload
@@ -66,17 +68,30 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
         {
           onSuccess: (data, variables, context) =>
             console.log("success", { data, variables, context }),
-          onSettled: (data, error, variables, context) =>
-            console.log("settled", { data, error, variables, context }),
+
           onError: (error, variables, context) =>
             console.log("error", { error, variables, context }),
+          onSettled: (data, error, variables, context) => {
+            setHasChanged(false);
+            setAllowEdit(false);
+            console.log("settled", { data, error, variables, context });
+          },
         }
       );
-      //   setUploading(false);
+      setIsUpdating(false);
     } catch (e) {
       console.log(e);
-      //   setUploading(false);
+      setIsUpdating(false);
       alert("Trouble uploading file");
+    }
+  };
+
+  const handleChangeAllowEdit = () => {
+    if (!allowEdit) {
+      setAllowEdit(true);
+    } else {
+      setHasChanged(false);
+      setAllowEdit(false);
     }
   };
 
@@ -90,13 +105,16 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
     >
       <textarea
         value={inputContent}
-        onChange={(e) => setInputContent(e.target.value)}
+        onChange={(e) => {
+          setHasChanged(true);
+          setInputContent(e.target.value);
+        }}
         id="metadata-input"
         disabled={isUpdating}
         readOnly={!allowEdit}
       />
       <button
-        onClick={() => setAllowEdit(!allowEdit)}
+        onClick={() => handleChangeAllowEdit()}
         className={styles.editButton}
       >
         {allowEdit ? <CancelIcon /> : <EditIcon />}

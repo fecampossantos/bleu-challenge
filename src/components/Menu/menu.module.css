@@ -2,5 +2,15 @@
   background-color: #303030;
   border-radius: 8px;
   margin: 1rem;
-  padding: 1rem;
+  padding: 0 1rem;
+
+  text-align: center;
+}
+
+.menuItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-start;
 }

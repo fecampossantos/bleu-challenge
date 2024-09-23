@@ -6,8 +6,28 @@
   background-color: #303030;
   color: white;
   min-width: 300px;
+  padding-left: 2.4rem;
 }
 
 .error {
   border: 1px solid red !important;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.iconWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 0.4rem;
+  pointer-events: none;
+}
+
+.icon {
+  height: 26px;
 }
