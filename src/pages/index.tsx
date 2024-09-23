@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import { useReadContract } from "wagmi";
 import { abi } from "../abi";
+import PinataForm from "../components/PinataForm";
 
 const Home: NextPage = () => {
   const [poolID, setPoolID] = useState<`0x${string}`>(
@@ -49,6 +50,10 @@ const Home: NextPage = () => {
               : isError
               ? `Error: ${error}`
               : `metadataCID: ${JSON.stringify(metadataCID, null, 2)}`}
+          </div>
+
+          <div>
+            <PinataForm />
           </div>
         </div>
       </div>
