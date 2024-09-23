@@ -8,9 +8,7 @@ import Header from "../components/Header";
 import PinataFile from "../components/PinataFile";
 
 const Home: NextPage = () => {
-  const [poolID, setPoolID] = useState<`0x${string}`>(
-    "0x238affe4b714ba820975b049875115ecd14cb1a4000200000000000000000155"
-  );
+  const [poolID, setPoolID] = useState<`0x${string}` | undefined>();
 
   return (
     <>

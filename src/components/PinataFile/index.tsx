@@ -8,7 +8,7 @@ import styles from "./pinataFile.module.css";
 import EditIcon from "../icons/edit";
 import CancelIcon from "../icons/cancel";
 
-const PinataFile = ({ poolID }: { poolID: `0x${string}` }) => {
+const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
   const { writeContract } = useWriteContract();
   const [inputContent, setInputContent] = useState<string>();
   const [isUpdating, setIsUpdating] = useState(false);

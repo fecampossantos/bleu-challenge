@@ -1,7 +1,25 @@
+.wrapper {
+  padding: 1rem;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
 
-  padding: 1rem;
+.button {
+  background-color: #303030;
+  border: none;
+  color: white;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.recentItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }

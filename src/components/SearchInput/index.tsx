@@ -7,6 +7,8 @@ const SearchInput = ({ search }: { search: (value: string) => void }) => {
 
   const isValidHex = (str: string) => /^0x[0-9a-fA-F]{64}$/.test(str);
 
+
+
   useEffect(() => {
     const handler = setTimeout(() => {
       if (inputValue.length === 0) {
