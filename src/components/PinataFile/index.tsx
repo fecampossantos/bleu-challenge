@@ -1,30 +1,44 @@
 import { useEffect, useState } from "react";
+import { useReadContract, useWriteContract } from "wagmi";
+
 import { pinata } from "../../utils/pinata/config";
-import { useWriteContract } from "wagmi";
-import { abi } from "../../abi";
+import { CONTRACT_ADDRESS, abi, FunctionNames } from "../../constants/web3";
 
-const PinataFile = ({ cid }: { cid: string }) => {
-  const [fileData, setFileData] = useState<any>();
+import styles from "./pinataFile.module.css";
+import EditIcon from "../icons/edit";
+import CancelIcon from "../icons/cancel";
 
-  const [inputContent, setInputContent] = useState<string>();
-
+const PinataFile = ({ poolID }: { poolID: `0x${string}` }) => {
   const { writeContract } = useWriteContract();
-  const CONTRACT_ADDRESS = "0x61FD2dedA9c8a1ddb9F3F436D548C58643936f02";
+  const [inputContent, setInputContent] = useState<string>();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [allowEdit, setAllowEdit] = useState(false);
 
-  const poolID =
-    "0x238affe4b714ba820975b049875115ecd14cb1a4000200000000000000000155";
+  const {
+    data: metadataCID,
+    isError,
+    isLoading,
+    error,
+  } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi,
+    functionName: FunctionNames.POOL_METADATA_CID_MAP,
+    args: [poolID],
+  });
 
   useEffect(() => {
     async function fetchFile() {
       try {
-        const file = await pinata.gateways.get(cid);
-        setFileData(file.data);
+        const file = await pinata.gateways.get(metadataCID!);
+        if (file && "data" in file) {
+          setInputContent(file.data as string);
+        }
       } catch (e) {
         console.log(e);
       }
     }
-    fetchFile();
-  }, [cid]);
+    if (metadataCID) fetchFile();
+  }, [metadataCID]);
 
   const updateContent = async () => {
     const timestamp = Date.now();
@@ -46,7 +60,7 @@ const PinataFile = ({ cid }: { cid: string }) => {
         {
           abi,
           address: CONTRACT_ADDRESS,
-          functionName: "setPoolMetadata",
+          functionName: FunctionNames.SET_POOL_METADATA,
           args: [poolID, metatadaCID],
         },
         {
@@ -67,14 +81,32 @@ const PinataFile = ({ cid }: { cid: string }) => {
   };
 
   return (
-    <div>
-      {JSON.stringify(fileData)}
-      <input
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        updateContent();
+      }}
+      className={styles.form}
+    >
+      <textarea
         value={inputContent}
         onChange={(e) => setInputContent(e.target.value)}
-      ></input>
-      <button onClick={() => updateContent()}>atualizar</button>
-    </div>
+        id="metadata-input"
+        disabled={isUpdating}
+        readOnly={!allowEdit}
+      />
+      <button
+        onClick={() => setAllowEdit(!allowEdit)}
+        className={styles.editButton}
+      >
+        {allowEdit ? <CancelIcon /> : <EditIcon />}
+      </button>
+      {allowEdit && (
+        <button type="submit" className={styles.submitButton}>
+          atualizar metadata
+        </button>
+      )}
+    </form>
   );
 };
 

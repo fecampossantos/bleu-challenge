@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 1rem;
+
+  position: relative;
+}
+
+.form > textarea {
+  width: 100%;
+  min-height: 5rem;
+  resize: none;
+  background-color: #252525;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  padding: 1rem;
+}
+
+.submitButton {
+  background-color: #252525;
+  border: none;
+  color: white;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.editButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  background-color: #252525;
+  border: none;
+  color: white;
+  width: 2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.3rem;
+}

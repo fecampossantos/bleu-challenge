@@ -1,33 +1,16 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Menu from "../components/Menu";
 import Header from "../components/Header";
-import { useState } from "react";
 
-import { useReadContract } from "wagmi";
-import { abi } from "../abi";
 import PinataFile from "../components/PinataFile";
 
 const Home: NextPage = () => {
   const [poolID, setPoolID] = useState<`0x${string}`>(
     "0x238affe4b714ba820975b049875115ecd14cb1a4000200000000000000000155"
   );
-
-  const CONTRACT_ADDRESS = "0x61FD2dedA9c8a1ddb9F3F436D548C58643936f02";
-
-  const {
-    data: metadataCID,
-    isError,
-    isLoading,
-    error,
-    ...rest
-  } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi,
-    functionName: "poolIdMetadataCIDMap",
-    args: [poolID],
-  });
 
   return (
     <>
@@ -45,15 +28,7 @@ const Home: NextPage = () => {
             }}
           />
           <div className={styles.content}>
-            {isLoading ? (
-              "Loading..."
-            ) : isError ? (
-              `Error: ${error}`
-            ) : metadataCID ? (
-              <PinataFile cid={metadataCID} />
-            ) : (
-              "no metatadaCID"
-            )}
+            <PinataFile poolID={poolID} />
           </div>
         </div>
       </div>
