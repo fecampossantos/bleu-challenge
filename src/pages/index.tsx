@@ -25,6 +25,7 @@ const Home: NextPage = () => {
               setPoolID(value as `0x${string}`);
             }}
           />
+          {poolID && <h1 className={styles.title}>{poolID}</h1>}
           <div className={styles.content}>
             <PinataFile poolID={poolID} />
           </div>
