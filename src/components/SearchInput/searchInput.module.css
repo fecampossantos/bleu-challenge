@@ -1,0 +1,9 @@
+.input {
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+
+  background-color: #303030;
+  color: white;
+  min-width: 300px;
+}
