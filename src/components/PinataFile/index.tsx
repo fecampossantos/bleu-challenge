@@ -112,6 +112,7 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
         id="metadata-input"
         disabled={isUpdating}
         readOnly={!allowEdit}
+        className={`${styles.textarea} ${!allowEdit && styles.disabled}`}
       />
       <button
         onClick={() => handleChangeAllowEdit()}

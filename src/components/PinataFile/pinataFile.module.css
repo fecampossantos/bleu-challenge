@@ -19,6 +19,10 @@
   padding: 1rem;
 }
 
+.disabled {
+  cursor: default;
+}
+
 .submitButton {
   background-color: #252525;
   border: none;
