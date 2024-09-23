@@ -38,7 +38,11 @@ const Home: NextPage = () => {
         <Menu />
 
         <div>
-          <Header search={(value) => setPoolID(value as `0x${string}`)} />
+          <Header
+            search={(value) => {
+              setPoolID(value as `0x${string}`);
+            }}
+          />
           <div className={styles.content}>
             {isLoading
               ? "Loading..."

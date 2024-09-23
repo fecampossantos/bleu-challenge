@@ -5,7 +5,7 @@ import SearchInput from "../SearchInput";
 const Header = ({ search }: { search: (value: string) => void }) => {
   return (
     <div className={styles.header}>
-      <SearchInput search={search} />
+      <SearchInput search={(value) => search(value)} />
       <ConnectButton />
     </div>
   );
