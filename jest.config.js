@@ -1,0 +1,11 @@
+module.exports = {
+  transform: {
+    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
+  },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+  transformIgnorePatterns: ["node_modules/(?!YOUR_PACKAGE)"],
+  moduleNameMapper: {
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+  },
+  testEnvironment: "jsdom",
+};
