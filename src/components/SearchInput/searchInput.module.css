@@ -25,10 +25,10 @@
   height: 40px;
   display: flex;
   align-items: center;
-  padding-left: 0.4rem;
+  padding-left: 0.8rem;
   pointer-events: none;
 }
 
 .icon {
-  height: 26px;
+  height: 18px;
 }

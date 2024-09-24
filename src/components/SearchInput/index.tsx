@@ -36,6 +36,7 @@ const SearchInput = ({ search }: { search: (value: string) => void }) => {
         </div>
       </div>
       <input
+      placeholder="search pools by id"
         className={`${styles.input} ${isError && styles.error}`}
         value={inputValue}
         onChange={(e) => {

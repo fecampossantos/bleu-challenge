@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         <meta content="" name="description" />
       </Head>
       <div className={styles.container}>
-        <Menu />
+        <Menu updatePoolId={setPoolID} />
 
         <div>
           <Header

@@ -7,13 +7,14 @@ import { CONTRACT_ADDRESS, abi, FunctionNames } from "../../constants/web3";
 import styles from "./pinataFile.module.css";
 import EditIcon from "../icons/edit";
 import CancelIcon from "../icons/cancel";
+import Spinner from "../Spinner";
 
 const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
   const { writeContract } = useWriteContract();
   const [inputContent, setInputContent] = useState<string>();
+  const [initialContent, setInitialContent] = useState<string>();
   const [isUpdating, setIsUpdating] = useState(false);
   const [allowEdit, setAllowEdit] = useState(false);
-  const [hasChanged, setHasChanged] = useState(false);
 
   const {
     data: metadataCID,
@@ -33,16 +34,29 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
         const file = await pinata.gateways.get(metadataCID!);
         if (file && "data" in file) {
           setInputContent(file.data as string);
+          setInitialContent(file.data as string);
         }
       } catch (e) {
         console.log(e);
       }
     }
-    if (metadataCID) fetchFile();
-  }, [metadataCID, hasChanged]);
+
+    if (metadataCID) {
+      fetchFile();
+    } else {
+      resetValues();
+    }
+  }, [metadataCID, poolID]);
+
+  const resetValues = () => {
+    setInputContent("");
+    setInitialContent("");
+    setIsUpdating(false);
+    setAllowEdit(false);
+  };
 
   const updateContent = async () => {
-    if (!hasChanged) return;
+    if (initialContent === inputContent) return;
     const timestamp = Date.now();
     const blob = new Blob([inputContent!], { type: "text/plain" });
     const file = new File([blob], `file-${timestamp}.txt`, {
@@ -66,16 +80,14 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
           args: [poolID, metatadaCID],
         },
         {
-          onSuccess: (data, variables, context) =>
-            console.log("success", { data, variables, context }),
+          onSuccess: (_data, _variables, _context) =>
+            setInitialContent(inputContent),
 
-          onError: (error, variables, context) =>
-            console.log("error", { error, variables, context }),
-          onSettled: (data, error, variables, context) => {
-            setHasChanged(false);
-            setAllowEdit(false);
-            console.log("settled", { data, error, variables, context });
-          },
+          onError: (error, _variables, _context) =>
+            console.log("Something went wrong", JSON.stringify(error, null, 2)),
+
+          onSettled: (_data, _error, _variables, _context) =>
+            setAllowEdit(false),
         }
       );
       setIsUpdating(false);
@@ -87,45 +99,55 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
   };
 
   const handleChangeAllowEdit = () => {
-    if (!allowEdit) {
-      setAllowEdit(true);
-    } else {
-      setHasChanged(false);
-      setAllowEdit(false);
-    }
+    setAllowEdit(!allowEdit);
+    setInputContent(initialContent);
+  };
+
+  const handleUpdateInput = (value: string) => {
+    setInputContent(value);
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        updateContent();
-      }}
-      className={styles.form}
-    >
-      <textarea
-        value={inputContent}
-        onChange={(e) => {
-          setHasChanged(true);
-          setInputContent(e.target.value);
-        }}
-        id="metadata-input"
-        disabled={isUpdating}
-        readOnly={!allowEdit}
-        className={`${styles.textarea} ${!allowEdit && styles.disabled}`}
-      />
-      <button
-        onClick={() => handleChangeAllowEdit()}
-        className={styles.editButton}
-      >
-        {allowEdit ? <CancelIcon /> : <EditIcon />}
-      </button>
-      {allowEdit && (
-        <button type="submit" className={styles.submitButton}>
-          atualizar metadata
-        </button>
+    <>
+      {poolID ? (
+        isLoading ? (
+          <Spinner />
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateContent();
+            }}
+            className={styles.form}
+          >
+            <textarea
+              value={inputContent}
+              onChange={(e) => {
+                handleUpdateInput(e.target.value);
+              }}
+              id="metadata-input"
+              disabled={isUpdating}
+              readOnly={!allowEdit}
+              className={`${styles.textarea} ${!allowEdit && styles.disabled}`}
+            />
+            <button
+              onClick={() => handleChangeAllowEdit()}
+              className={styles.editButton}
+              type="button"
+            >
+              {allowEdit ? <CancelIcon /> : <EditIcon />}
+            </button>
+            {allowEdit && (
+              <button type="submit" className={styles.submitButton}>
+                {isUpdating ? <Spinner /> : "update metadata "}
+              </button>
+            )}
+          </form>
+        )
+      ) : (
+        <i>no pool selected</i>
       )}
-    </form>
+    </>
   );
 };
 

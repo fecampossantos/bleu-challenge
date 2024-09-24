@@ -6,20 +6,12 @@ const CancelIcon = () => (
     viewBox="0 0 24 24"
     version="1.1"
   >
-    <title>cancel</title>
-    <desc>Created with Sketch.</desc>
-    <g
-      id="icons"
-      stroke="none"
-      stroke-width="1"
-      fill="none"
-      fill-rule="evenodd"
-    >
+    <g id="icons" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g
         id="ui-gambling-website-lined-icnos-casinoshunter"
         transform="translate(-2168.000000, -158.000000)"
         fill="#fff"
-        fill-rule="nonzero"
+        fillRule="nonzero"
       >
         <g id="1" transform="translate(1350.000000, 120.000000)">
           <path

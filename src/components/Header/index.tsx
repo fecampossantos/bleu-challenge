@@ -39,12 +39,13 @@ const Header = ({ search }: { search: (value: string) => void }) => {
       </div>
       {searches && (
         <div className={styles.recent}>
-          <h3>Historico</h3>
+          <h3>Recent</h3>
           <div className={styles.recentItems}>
             {searches.map((id) => (
               <button
                 onClick={() => handleSearch(id)}
                 className={styles.button}
+                key={id}
               >
                 {id}
               </button>
