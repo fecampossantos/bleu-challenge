@@ -134,6 +134,7 @@ const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
               onClick={() => handleChangeAllowEdit()}
               className={styles.editButton}
               type="button"
+              data-testid="edit-button"
             >
               {allowEdit ? <CancelIcon /> : <EditIcon />}
             </button>

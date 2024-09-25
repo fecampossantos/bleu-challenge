@@ -9,6 +9,14 @@ describe("SearchInput Component", () => {
     jest.clearAllMocks();
   });
 
+  it("rendes component", async () => {
+    render(<SearchInput search={mockSearch} />);
+
+    expect(
+      screen.getByPlaceholderText("search pools by id")
+    ).toBeInTheDocument();
+  });
+
   it("calls search func after debounce", async () => {
     const ID =
       "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "./home.module.css";
 import Menu from "../components/Menu";
 import Header from "../components/Header";
 
