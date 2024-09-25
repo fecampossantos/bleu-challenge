@@ -97,4 +97,10 @@ This dApp interacts with the Balancer Pool Metadata contract on the Sepolia test
 [Deployed App on Vercel](https://bleu-challenge.vercel.app/)  
 [Project Demo Video](https://www.loom.com/share/70bd40892de147e99cfe70f035e9f5b6?sid=ca88819e-5e46-4983-b3ab-db4646e751e3)
 
-_Note_: As mentioned in the video, the demonstration was done with another wallet address as the owner. Not all pools listed in the sidebar in the video belong to the same user.
+_Notes_:
+1. As mentioned in the video, the demonstration was done with another wallet address as the owner. Not all pools listed in the sidebar in the video belong to the same user.
+2. The app was updated after the video was recorded. The form now has 3 fields instead of one:
+- Name
+- Link
+- Description
+This was done to improve the metadata information
