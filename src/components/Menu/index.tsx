@@ -1,16 +1,10 @@
 import styles from "./menu.module.css";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Dispatch, SetStateAction } from "react";
 import { useAccount } from "wagmi";
-
-const GET_POOLS_BY_OWNER = gql`
-  query GetPools($owner: String!) {
-    pools(where: { owner: $owner }) {
-      id
-    }
-  }
-`;
+import { GET_POOLS_BY_OWNER } from "./constants";
+import { shortenId } from "./utils";
 
 const Menu = ({
   updatePoolId,
@@ -18,13 +12,9 @@ const Menu = ({
   updatePoolId: Dispatch<SetStateAction<any>>;
 }) => {
   const { address } = useAccount();
-  const { loading, error, data, ...rest } = useQuery(GET_POOLS_BY_OWNER, {
+  const { loading, error, data } = useQuery(GET_POOLS_BY_OWNER, {
     variables: { owner: address },
   });
-
-  function shortenId(id: string) {
-    return id.slice(0, 4) + "..." + id.slice(-3);
-  }
 
   const getContent = (loading: boolean, error: any, data: any) => {
     if (loading) return <>...</>;

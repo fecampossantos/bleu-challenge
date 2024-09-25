@@ -8,8 +8,9 @@ import styles from "./pinataFile.module.css";
 import EditIcon from "../icons/edit";
 import CancelIcon from "../icons/cancel";
 import Spinner from "../Spinner";
+import { Address } from "../../types";
 
-const PinataFile = ({ poolID }: { poolID: `0x${string}` | undefined }) => {
+const PinataFile = ({ poolID }: { poolID: Address | undefined }) => {
   const { writeContract } = useWriteContract();
   const [inputContent, setInputContent] = useState<string>();
   const [initialContent, setInitialContent] = useState<string>();

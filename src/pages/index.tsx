@@ -6,14 +6,15 @@ import Menu from "../components/Menu";
 import Header from "../components/Header";
 
 import PinataFile from "../components/PinataFile";
+import { Address } from "../types";
 
 const Home: NextPage = () => {
-  const [poolID, setPoolID] = useState<`0x${string}` | undefined>();
+  const [poolID, setPoolID] = useState<Address | undefined>();
 
   return (
     <>
       <Head>
-        <title>Bleu take home assignment</title>
+        <title>Bleu | take home assignment</title>
         <meta content="" name="description" />
       </Head>
       <div className={styles.container}>
@@ -21,8 +22,8 @@ const Home: NextPage = () => {
 
         <div>
           <Header
-            search={(value) => {
-              setPoolID(value as `0x${string}`);
+            search={(value: Address) => {
+              setPoolID(value);
             }}
           />
           {poolID && <h1 className={styles.title}>{poolID}</h1>}

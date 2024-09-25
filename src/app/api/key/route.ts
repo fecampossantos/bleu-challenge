@@ -3,7 +3,7 @@ import { pinata } from "../../../utils/pinata/config";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(_req: NextRequest, _res: NextResponse) {
   try {
     const uuid = crypto.randomUUID();
     const keyData = await pinata.keys.create({
